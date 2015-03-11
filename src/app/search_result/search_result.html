@@ -1,0 +1,27 @@
+<table class="ds-table">
+	<caption>Search result for: {{ query }}</caption>
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Type</th>
+			<th>Designed by</th>
+		</tr>
+	</thead>
+	<tbody ng-if="searchResult.length">
+		<tr ng-repeat="searchResultItem in searchResult">
+			<td>{{ searchResultItem.data['Name'] }}</td>
+			<td>{{ searchResultItem.data['Type'] }}</td>
+			<td>{{ searchResultItem.data['Designed by'] }}</td>
+		</tr>
+	</tbody>
+
+	<tbody ng-if="!searchResult.length">
+		<tr>
+			<td colspan="3" class="ds-text-center">Sorry. There are no matched records. Please try different query.</td>
+		</tr>
+	</tbody>
+</table>
+
+<div class="ds-text-center">
+	<a href="/#/" class="ds-button">Back</a>
+</div>
