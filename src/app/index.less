@@ -1,0 +1,127 @@
+@brand-color: #4882be;
+@search-background-color: #f8f8f8;
+@search-border-color: #b3b2b2;
+@button-color: #e3e3e3;
+@input-background-color: #e3e3e3;
+@navigation-color: #666666;
+
+html {
+	font-family: Arial, sans-serif;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+a {
+	color: @navigation-color;
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.ds-header {
+	padding: 32px;
+	border-bottom: 1px solid @brand-color;
+}
+
+.ds-logo {
+	width: 223px;
+	height: 35px;
+	margin: 0;
+	background: url('../assets/images/ds-logo.png') 0 0 no-repeat;
+	text-indent: -999em;
+}
+
+.ds-search {
+	width: 500px;
+	margin: 100px auto;
+	padding: 20px 60px;
+	background: @search-background-color;
+	border: 1px solid @search-border-color;
+	border-radius: 10px;
+}
+
+.ds-label {
+	display: block;
+	padding: 10px 0;
+	margin: 0 0 15px;
+	font-size: 20px;
+	font-weight: normal;
+	color: @brand-color;
+	border-bottom: 5px solid @brand-color;
+}
+
+.ds-input-group {
+	position: relative;
+	display: table;
+	border-collapse: separate;
+}
+
+.ds-input {
+	position: relative;
+	display: table-cell;
+	float: left;
+	width: 100%;
+	padding: 10px;
+	border: none;
+	font-size: 20px;
+	background: @input-background-color;
+
+	&:focus {
+		outline: 0;
+	}
+}
+
+.ds-input-group-button {
+	position: relative;
+	display: table-cell;
+	margin: 0;
+	width: 1%;
+	white-space: nowrap;
+	vertical-align: middle;
+	font-size: 0;
+}
+
+.ds-button {
+	display: inline-block;
+	padding: 10px;
+	border: none;
+	font-size: 20px;
+	color: @button-color;
+	background: @brand-color;
+}
+
+.ds-navigation-container {
+	display: table;
+	width: 100%;
+	padding: 0 10px;
+	table-layout: fixed;
+	color: @navigation-color;
+}
+
+.ds-navigation-block {
+	display: table-cell;
+}
+
+.ds-navigation-title {
+	font-size: 18px;
+	padding: 10px 0;
+	font-weight: normal;
+	text-transform: uppercase;
+	border-top: 1px solid @brand-color;
+	border-bottom: 1px solid @brand-color;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.ds-navigation-list {
+	list-style: none;
+	padding: 0;
+
+	> li {
+		padding: 5px 0;
+	}
+}
