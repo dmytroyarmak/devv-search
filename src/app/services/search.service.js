@@ -2,97 +2,104 @@
 
 angular.module('devvSearch')
   .factory('searchService', function ($http) {
-  	var DATA_URL = 'stubs/data.json'
-  	var dataPromise;
+    var DATA_URL = 'stubs/data.json'
+    var INCLUDE_RELEVANCE = 1;
+    var EXCLUDE_RELEVANCE = 1;
+    var dataPromise;
 
-  	return {
-  		get: function (query) {
-  			return _getData().then(function(data) {
-  				return _filterDataByQuery(data, query);
-  			});
-  		}
-  	};
+    return {
+      get: get
+    };
 
-  	function _filterDataByQuery (data, query) {
-  		var tokens = _splitQueryToTokens(query);
-  		return data.map(function(item) {
-  			return {
-  				data: item,
-  				relevance: _computeRelevance(item, tokens)
-  			}
-  		}).filter(_withPositiveRelevance).sort(_compareByRelevance);
-  	}
+    function get (query) {
+      return _getData().then(function(data) {
+        return _filterDataByQuery(data, query);
+      });
+    }
 
-  	function _getData () {
-  		dataPromise = dataPromise || _makeHtppRequest();
-  		return dataPromise
-  	}
+    function _filterDataByQuery (data, query) {
+      var tokens = _splitQueryToTokens(query);
+      return data
+        .map(function(item) {
+          return {
+            data: item,
+            relevance: _computeRelevance(item, tokens)
+          }
+        })
+        .filter(_withPositiveRelevance)
+        .sort(_compareByRelevance);
+    }
 
-  	function _makeHtppRequest () {
-  		return $http.get(DATA_URL).then(function(resp) {
-  			return resp.data;
-  		})
-  	}
+    function _getData () {
+      dataPromise = dataPromise || _makeHtppRequest();
+      return dataPromise
+    }
 
-  	function _splitQueryToTokens (query) {
-  		return query.match(/-?(\w+|".+")/g).reduce(function (result, token) {
-  			var section = (token[0] === '-' ? 'exclude' : 'include'),
-  				tokenArray = result[section],
-  				normalizedToken = _normalizeToken(token);
+    function _makeHtppRequest () {
+      return $http.get(DATA_URL).then(function(resp) {
+        return resp.data;
+      })
+    }
 
-  			tokenArray.push(normalizedToken);
+    function _splitQueryToTokens (query) {
+      return query.match(/-?(\w+|".+")/g).reduce(function (result, token) {
+        var section = (token[0] === '-' ? 'exclude' : 'include'),
+          tokenArray = result[section],
+          normalizedToken = _normalizeToken(token);
 
-  			return result;
-  		}, {include: [], exclude: []});
-  	}
+        tokenArray.push(normalizedToken);
 
-  	function _normalizeToken (token) {
-  		return token
-  			.replace(/^-/, '')
-  			.replace(/^"/, '')
-  			.replace(/"$/, '')
-  			.toLowerCase();
-  	}
+        return result;
+      }, {include: [], exclude: []});
+    }
 
-  	function _computeRelevance (item, tokens) {
-  		var relevance = 0;
+    function _normalizeToken (token) {
+      return token
+        .replace(/^-/, '')
+        .replace(/^"/, '')
+        .replace(/"$/, '')
+        .toLowerCase();
+    }
 
-  		tokens.include.forEach(function(token) {
-  			if (_itemContains(item, token)) {
-  				relevance += 1;
-  			}
-  		});
+    function _computeRelevance (item, tokens) {
+      var relevance = 0;
 
-  		tokens.exclude.forEach(function(token) {
-  			if (_itemContains(item, token)) {
-  				relevance -= 1;
-  			}
-  		});
+      tokens.include.forEach(function(token) {
+        if (_itemContains(item, token)) {
+          relevance += INCLUDE_RELEVANCE;
+        }
+      });
 
-  		return relevance;
-  	}
+      tokens.exclude.forEach(function(token) {
+        if (_itemContains(item, token)) {
+          relevance -= EXCLUDE_RELEVANCE;
+        }
+      });
 
-  	function _itemContains (item, token) {
-  		return Object.keys(item).some(function(itemKey) {
-  			return item[itemKey].toLowerCase().indexOf(token) !== -1;
-  		});
-  	}
+      return relevance;
+    }
 
-  	function _withPositiveRelevance (searchResult) {
-  		return searchResult.relevance > 0;
-  	}
+    function _itemContains (item, token) {
+      return Object.keys(item).some(function(itemKey) {
+        return item[itemKey].toLowerCase().indexOf(token) !== -1;
+      });
+    }
 
-  	function _compareByRelevance (first, second) {
-		var firstRelevance = first.relevance,
-			secondRelevance = second.relevance;
+    function _withPositiveRelevance (searchResult) {
+      return searchResult.relevance > 0;
+    }
 
-		if (firstRelevance < secondRelevance) {
-			return 1;
-		} else if (firstRelevance > secondRelevance) {
-			return -1;
-		} else {
-			return 0;
-		}
-  	}
+    function _compareByRelevance (first, second) {
+      var firstRelevance = first.relevance,
+        secondRelevance = second.relevance;
+
+      if (firstRelevance < secondRelevance) {
+        return 1;
+      } else if (firstRelevance > secondRelevance) {
+        return -1;
+      } else {
+        return 0;
+      }
+    }
   });
 
