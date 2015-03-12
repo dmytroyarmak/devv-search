@@ -35,7 +35,7 @@ angular.module('devvSearch')
   	}
 
   	function _splitQueryToTokens (query) {
-  		return query.match(/(\w+|".+")/g).reduce(function (result, token) {
+  		return query.match(/-?(\w+|".+")/g).reduce(function (result, token) {
   			var section = (token[0] === '-' ? 'exclude' : 'include'),
   				tokenArray = result[section],
   				normalizedToken = _normalizeToken(token);
