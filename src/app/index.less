@@ -36,12 +36,16 @@ a {
 }
 
 .ds-search {
-	width: 500px;
+	max-width: 500px;
 	margin: 100px auto;
 	padding: 20px 60px;
 	background: @search-background-color;
 	border: 1px solid @search-border-color;
 	border-radius: 10px;
+
+	@media (max-width: 479px) {
+		padding: 20px;
+	}
 }
 
 .ds-label {
@@ -99,15 +103,29 @@ a {
 }
 
 .ds-navigation-container {
-	display: table;
 	width: 100%;
 	padding: 0 10px;
-	table-layout: fixed;
 	color: @navigation-color;
+
+	&:after {
+		display: table;
+		content: '';
+		clear: both;
+	}
 }
 
 .ds-navigation-block {
-	display: table-cell;
+	float: left;
+	width: 25%;
+
+	@media (max-width: 767px) {
+		width: 50%;
+		text-align: center;
+	}
+
+	@media (max-width: 479px) {
+		width: 100%;
+	}
 }
 
 .ds-navigation-title {
