@@ -5,4 +5,4 @@ Hot to build
 2. `npm install`
 3. `npm install -g bower gulp`
 4. `bower install`
-5. `grunt build` or `grunt serve`
+5. `gulp build` or `gulp serve`
