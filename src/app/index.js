@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('devvSearch', ['ngAnimate', 'ngRoute'])
+angular.module('vvedSearch', ['ngAnimate', 'ngRoute'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {

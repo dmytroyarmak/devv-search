@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('devvSearch')
+angular.module('vvedSearch')
   .factory('searchService', function ($http) {
     var DATA_URL = 'stubs/data.json'
     var INCLUDE_RELEVANCE = 1;

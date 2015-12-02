@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('devvSearch')
+angular.module('vvedSearch')
   .controller('SearchFormController', function ($scope, $location) {
   	$scope.searchFormData = {
   		query: null
